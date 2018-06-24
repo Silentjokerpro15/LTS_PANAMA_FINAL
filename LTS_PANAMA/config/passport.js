@@ -21,6 +21,7 @@ module.exports = function(passport) {
             var name = req.body.name;
             var lastname = req.body.lastname;
             var age = req.body.age;
+            var city = req.body.city;
             var role = req.body.role;
             console.log(role);
 
@@ -35,6 +36,7 @@ module.exports = function(passport) {
                         newUser.local.email = email;
                         newUser.local.role = role;
                         newUser.local.name = name;
+                        newUser.local.city = city;
                         newUser.local.lastname = lastname;
                         newUser.local.age = age;
                         newUser.local.password = newUser.generateHash(password);

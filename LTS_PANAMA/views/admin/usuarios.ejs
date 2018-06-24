@@ -32,6 +32,7 @@
                             <th>Edad</th>
                             <th>Email</th>
                             <th>Role</th>
+                            <th>Cuidad</th>
                             <th>Modificar</th>
                             <th>Eliminar</th>
 
@@ -45,6 +46,7 @@
                             <td> <%= listUser[i].local.age %></td>
                             <td> <%= listUser[i].local.email %></td>
                             <td> <%= listUser[i].local.role %></td>
+                            <td> <%= listUser[i].local.city %></td>
                             <!-- Verificar-->
                             <td><a href="/usuarios/modificar/<%= listUser[i]._id%>">Modificar</a></td>
                             <td><a href="/usuarios/eliminar/<%= listUser[i]._id%>">Eliminar</a></td>                        </tr>

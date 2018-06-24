@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+
+    <%- include('../Layouts/left_sidebar_logistics') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+            <style>
+                h1.color_azul{
+                    color:#0069d9;
+                }
+            </style>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;    Todos los Camiones</h1>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <br>
+                    <a href="/logistics/camiones/nuevo" class="btn btn-primary">Agregar un Camion</a>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Modelo</th>
+                            <th>Placa</th>
+                            <th>Color</th>
+                          
+                            <th>Modificar</th>
+                            <th>Eliminar</th>
+
+                            <% for(var i=0; i<camiones.length; i++) {%>
+
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td> <%= camiones[i].camiones.modelo %></td>
+                            <td> <%= camiones[i].camiones.placa %></td>
+                            <td> <%= camiones[i].camiones.color %></td>
+                        
+                            <!-- Verificar-->
+                            <td><a href="/logistics/camion/modificar/<%= camiones[i]._id%>">Modificar</a></td>
+                            <td><a href="/logistics/camion/eliminar/<%= camiones[i]._id%>">Eliminar</a></td>                        </tr>
+                        <% } %>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+<footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

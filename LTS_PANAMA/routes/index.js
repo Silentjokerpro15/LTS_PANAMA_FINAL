@@ -4,6 +4,9 @@ var router = express.Router();
 var User = require('../models/user');
 var Counter = require('../models/Counter');
 var Counterdetalle = require('../models/detalleCounter');
+var LOGISTICS = require('../models/logistics');
+
+var Camiones = require('../models/logistics_camiones');
 
 //Ruta para la pagina del login
 router.get('/', function(req, res, next) {
@@ -50,6 +53,7 @@ console.log('aca llego mogo');
     var name = req.body.name;
     var lastname = req.body.lastname;
     var age = req.body.age;
+    var city = req.body.city;
     var role = req.body.role;
     var password = req.body.password;
 
@@ -59,6 +63,7 @@ console.log('aca llego mogo');
     var newUser = new User();
     newUser.local.email = email;
     newUser.local.role = role;
+    newUser.local.city = city;
     newUser.local.name = name;
     newUser.local.lastname = lastname;
     newUser.local.age = age;
@@ -96,11 +101,12 @@ router.post('/usuarios/modificar/:id', isLoggedIn, function(req, res) {
     console.log(id);
     var email = req.body.email;
     var name = req.body.name;
+    var city = req.body.city;
     var lastname = req.body.lastname;
     var age = req.body.age;
     var role = req.body.role;
     //var id = req.body._id;
-    User.findByIdAndUpdate({'_id': id },{'local.name':name,'local.lastname':lastname,'local.email':email,'local.age':age,'local.role':role,},function(err) {
+    User.findByIdAndUpdate({'_id': id },{'local.name':name,'local.lastname':lastname,'local.email':email,'local.age':age,'local.role':role,'local.city':city},function(err) {
         if(err) {
             console.log(err);
         } else {
@@ -127,6 +133,213 @@ router.get('/usuarios/eliminar/:id', (req, res) => {
 
 
 //_______________________________FINAL ADMIN____________________________________________\\
+
+//_______________________________INICIO LOGISTICS____________________________________________\\
+
+router.get('/logistics', isLoggedIn, (req, res) =>{
+
+    res.render('logistics/index',{user : req.user});
+});
+
+router.get('/logistics/rutas',isLoggedIn ,(req,res)=>{
+        LOGISTICS.find((err, listLogistics)=>{
+            console.log(listLogistics);
+            if(err) throw err;
+            res.render('logistics/rutas',{user: req.user, listLogistics: listLogistics});
+        });
+});
+
+
+router.get('/logistics/nuevo', isLoggedIn, function(req, res) {
+    res.render('logistics/ruta_nueva', { user: req.user });
+});
+
+
+
+
+router.post('/logistics/nuevo/crear', isLoggedIn, function(req, res) {
+   
+        var inicio = req.body.inicio;
+        var fin = req.body.fin;
+        var ruta = (inicio+' - '+fin);
+    
+     
+    
+        var nueva_ruta = new LOGISTICS();
+        nueva_ruta.rutas.inicio = inicio;
+        nueva_ruta.rutas.fin = fin;
+        nueva_ruta.rutas.ruta = ruta;
+
+    
+        nueva_ruta.save(function(err) {
+            if(err) {
+                console.log(err);
+            } else {
+                LOGISTICS.find((err, listLogistics) => {
+                    console.log(listLogistics);
+                    if (err) throw err;
+                    res.render('logistics/rutas',{ user: req.user ,listLogistics: listLogistics});
+                });
+    
+            }
+        });
+    });
+
+
+    
+router.get('/logistics/rutas/modificar/:id', isLoggedIn, function(req, res) {
+    LOGISTICS.findOne({_id: req.params.id}).exec(function (err, listLogistics) {
+        console.log(listLogistics);
+        if (err) {
+            console.log("Error:", err);
+        }
+        else {
+            res.render('logistics/ruta_modificar', {user: req.user, listLogistics: listLogistics});
+        }
+    });
+ });
+
+ router.post('/logistics/modificar/:id',isLoggedIn,(req,res )=>{
+    var id = req.params.id;
+    console.log(id);
+    var inicio = req.body.inicio;
+    var fin = req.body.fin;
+    var ruta = (inicio+' - '+fin);
+    
+    LOGISTICS.findByIdAndUpdate({'_id': id },{'rutas.inicio':inicio,'rutas.fin':fin,'rutas.ruta':ruta},function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            LOGISTICS.find((err, listLogistics) => {
+                console.log(listLogistics);
+                if (err) throw err;
+                res.render('logistics/rutas',{ user: req.user ,listLogistics: listLogistics});
+            });
+        }
+    });
+});
+
+
+
+router.get('/logistics/rutas/eliminar/:id', (req, res) => {
+    let id = req.params.id;
+    LOGISTICS.remove({'_id': id }, (err) => {
+        if (err) throw err;
+        LOGISTICS.find((err, listLogistics) => {
+            console.log(listLogistics);
+            if (err) throw err;{}
+            res.render('logistics/rutas',{ user: req.user ,listLogistics: listLogistics});
+        });
+    });
+});
+
+
+
+//------
+
+
+router.get('/logistics/camiones',isLoggedIn ,(req,res)=>{
+    Camiones.find((err, camiones)=>{
+        console.log(camiones);
+        if(err) throw err;
+        res.render('logistics/camiones',{user: req.user, camiones: camiones});
+    });
+});
+
+
+router.get('/logistics/camiones/nuevo', isLoggedIn, function(req, res) {
+
+res.render('logistics/camion_nuevo', { user: req.user });
+});
+
+
+
+
+router.post('/logistics/camion/nuevo/crear', isLoggedIn, function(req, res) {
+
+    var modelo = req.body.modelo;
+    var placa = req.body.placa;
+    var color = req.body.color;
+  
+
+
+var nuevo_camion = new Camiones();
+console.log();
+nuevo_camion.camiones.modelo = modelo;
+nuevo_camion.camiones.placa = placa;
+nuevo_camion.camiones.color = color;
+
+
+nuevo_camion.save(function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            Camiones.find((err, camiones) => {
+                
+                if (err) throw err;
+                res.render('logistics/camiones',{ user: req.user ,camiones: camiones});
+            });
+
+        }
+    });
+});
+
+
+
+router.get('/logistics/camion/modificar/:id', isLoggedIn, function(req, res) {
+Camiones.findOne({_id: req.params.id}).exec(function (err, camiones) {
+
+    if (err) {
+        console.log("Error:", err);
+    }
+    else {
+        res.render('logistics/camion_modificar', {user: req.user, camiones: camiones});
+    }
+});
+});
+
+router.post('/logistics/camion/modificar/:id',isLoggedIn,(req,res )=>{
+var id = req.params.id;
+console.log(id);
+
+var modelo = req.body.modelo;
+var placa = req.body.placa;
+var color = req.body.color;
+
+
+Camiones.findByIdAndUpdate({'_id': id },{'camiones.modelo':modelo,'camiones.placa':placa,'camiones.color':color},function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        Camiones.find((err, camiones) => {
+        
+            if (err) throw err;
+            res.render('logistics/camiones',{ user: req.user ,camiones: camiones});
+        });
+    }
+});
+});
+
+
+
+router.get('/logistics/camion/eliminar/:id', (req, res) => {
+let id = req.params.id;
+Camiones.remove({'_id': id }, (err) => {
+    if (err) throw err;
+    Camiones.find((err, camiones) => {
+
+        if (err) throw err;{}
+        res.render('logistics/camiones',{ user: req.user ,camiones: camiones});
+    });
+});
+});
+
+//------
+
+
+
+
+//_______________________________FINAL LOGISTICS____________________________________________\\
 
 
 
@@ -384,6 +597,9 @@ router.post('/login',
             return res.redirect('/receivers');
                                                                 }else if(Role ==="DISPATCHER"){
                                                                     return res.redirect('/dispatcher');
+        }else if(Role === "LOGISTICS"){
+            return  res.redirect('/logistics');
+
         }
 
 
