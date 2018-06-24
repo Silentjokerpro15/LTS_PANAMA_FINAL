@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+    <style>
+        h1.color_azul{
+            color:#0069d9;
+        }
+    </style>
+    <%- include('../Layouts/left_sidebar_counter') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+
+            <div align="center"  >
+
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="color_azul">Detalles del paquete</h1>
+                    </div>
+                    <div class="card-body card-block">
+
+                        <!--Envio de datos para hacer registro de usuarios-->
+                        <form action="/counter/create/save" method="post" class="form-horizontal">
+
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="name" class=" form-control-label">Descripcion</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="nombrec" name="nombrec" placeholder="Describición del paquete..." class="form-control">
+
+                                </div>
+                            </div>
+                            
+
+                           <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="role" class=" form-control-label">Frágil</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="fragil" class="form-control">
+                                        <option value="fragil">....</option>
+
+                                        <option value="SI">Si</option>
+                                        <option value="NO">No</option>
+                                      
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <input type="submit" class="form-control" value="Submit" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+
+                    </div>
+                </div>
+        </div>
+
+    </div>
+</div>
+<footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

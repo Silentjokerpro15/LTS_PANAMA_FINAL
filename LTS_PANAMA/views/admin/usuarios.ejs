@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+
+    <%- include('../Layouts/left_sidebar_admin') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+            <style>
+                h1.color_azul{
+                    color:#0069d9;
+                }
+            </style>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;    Todos de Usuarios</h1>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <br>
+                    <a href="/usuarios/nuevo" class="btn btn-primary"> Nuevo</a>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Modificar</th>
+                            <th>Eliminar</th>
+
+                            <% for(var i=0; i<listUser.length; i++) {%>
+
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td> <%= listUser[i].local.name %></td>
+                            <td> <%= listUser[i].local.lastname %></td>
+                            <td> <%= listUser[i].local.age %></td>
+                            <td> <%= listUser[i].local.email %></td>
+                            <td> <%= listUser[i].local.role %></td>
+                            <!-- Verificar-->
+                            <td><a href="/usuarios/modificar/<%= listUser[i]._id%>">Modificar</a></td>
+                            <td><a href="/usuarios/eliminar/<%= listUser[i]._id%>">Eliminar</a></td>                        </tr>
+                        <% } %>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+<footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

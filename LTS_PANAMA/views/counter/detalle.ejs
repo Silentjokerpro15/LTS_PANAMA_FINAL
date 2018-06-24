@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+
+    <%- include('../Layouts/left_sidebar_counter') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+            <style>
+                h1.color_azul{
+                    color:#0069d9;
+                }
+            </style>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Pedidos del día </h1>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <br>
+                    <a href="/counter/create" class="btn btn-primary"> Nuevo Pedido</a>
+                 
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                              <th>Registro </th>
+                               <th>Código Paquete</th>
+                            <th>Frágil</th>
+
+                            <th>Enviado</th>
+                            <th>Recibido</th>
+                       
+                          
+                          
+
+
+                        </tr>
+                        </thead>
+                        <% for(var i=0; i<listdetalle.length;i++) { %>
+
+                        <tr>
+                            <td><%= listdetalle[i].local.idcliente%></td>
+                             <td><%= listdetalle[i].local.descripcion%></td>
+                            <td><%= listdetalle[i].local.fragil%></td>
+                           
+                            <td><%= listdetalle[i].local.enviado%></td>
+                            <td><%= listd[i].local.recibido%></td>
+                     
+                         <td><a href="/counter/detalle/<%= listclientes[i]._id%>"></a></td>
+                           
+                        </tr>
+                         <% } %>
+
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+<footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

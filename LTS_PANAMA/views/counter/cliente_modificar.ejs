@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+    <style>
+        h1.color_azul{
+            color:#0069d9;
+        }
+    </style>
+    <%- include('../Layouts/left_sidebar_counter') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+
+            <div align="center"  >
+
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="color_azul"> Modificar Datos del Envio y el cliente</h1>
+                    </div>
+                    <div class="card-body card-block">
+
+                        <!--Envio de datos para hacer registro de usuarios-->
+                        <form action="/counter/modificar/<%= listup._id%>" method="post" class="form-horizontal">
+
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="name" class=" form-control-label">Nombre</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="nombrec" name="nombrec" placeholder="Escriba el Nombre..." class="form-control"  value="<%= listup.local.nombrec %>">
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="lastname" class=" form-control-label">Cédula</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="cedula" name="cedula" placeholder="Escriba la cedula..." class="form-control"value="<%= listup.local.cedula %>" >
+
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="age" class=" form-control-label">Nombre Envio</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="nombree" name="nombree" placeholder="Escriba el nombre destinatario..." class="form-control" value="<%= listup.local.nombree %>">
+
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="id" class=" form-control-label">Direccion</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="direccion" name="direccion" placeholder="Dirección a enviar..." class="form-control" value="<%= listup.local.direccion%>">
+
+                                </div>
+                            </div>
+
+                           
+
+
+
+
+                            
+
+                            <div>
+                                <input type="submit" class="form-control" value="Submit" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

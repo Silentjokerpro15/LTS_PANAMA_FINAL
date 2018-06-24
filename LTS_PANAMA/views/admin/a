@@ -1,0 +1,92 @@
+
+            <div align="center"  >
+
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="color_azul"> Creacion de Usuarios</h1>
+                    </div>
+                    <div class="card-body card-block">
+
+                        <!--Envio de datos para hacer registro de usuarios-->
+                        <form action="/usuarios/nuevo/crear" method="post" class="form-horizontal">
+
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="name" class=" form-control-label">Nombre</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="name" name="name" placeholder="Escriba el Nombre..." class="form-control">
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="lastname" class=" form-control-label">Apellido</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="lastname" name="lastname" placeholder="Escriba el Apellido..." class="form-control">
+
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="age" class=" form-control-label">Edad</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="age" name="age" placeholder="Escriba la Edad..." class="form-control">
+
+                                </div>
+                            </div>
+
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="role" class=" form-control-label">Role</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="role" class="form-control">
+                                        <option value="role">....</option>
+
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="COUNTER">COUNTER</option>
+                                        <option value="MANIFEST">MANIFEST</option>
+                                        <option value="DISPATCHER">DISPATCHER</option>
+                                        <option value="RECEIVERS">RECEIVERS</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="hf-email" class=" form-control-label">Correo Electronico</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="email" id="email" name="email" placeholder="Introdusca el Correo Electronico..." class="form-control">
+
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="password" class=" form-control-label">Contrasena</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="password" id="hf-password" name="password" placeholder="Escriba Contrasena asignada..." class="form-control">
+
+                                </div>
+                            </div>
+                            <div>
+                                <input type="submit" class="form-control" value="Submit" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+
+                    </div>
+                </div>
