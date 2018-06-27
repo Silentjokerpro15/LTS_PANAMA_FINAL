@@ -4,9 +4,10 @@ var router = express.Router();
 var User = require('../models/user');
 var Counter = require('../models/Counter');
 var Counterdetalle = require('../models/detalleCounter');
-var LOGISTICS = require('../models/logistics');
 
+var LOGISTICS = require('../models/logistics');
 var Camiones = require('../models/logistics_camiones');
+var Oficinas = require('../models/oficinas');
 
 //Ruta para la pagina del login
 router.get('/', function(req, res, next) {
@@ -44,7 +45,12 @@ router.get('/usuarios', isLoggedIn ,(req, res) => {
 });
 
 router.get('/usuarios/nuevo', isLoggedIn, function(req, res) {
-    res.render('admin/usuario_nuevo', { user: req.user });
+    Oficinas.find((err, oficinas)=>{
+        console.log(oficinas);
+        if(err) throw err;
+        res.render('admin/usuario_nuevo', { user: req.user,oficinas:oficinas });
+    });
+   
 });
 
 router.post('/usuarios/nuevo/crear', isLoggedIn, function(req, res) {
@@ -54,6 +60,8 @@ console.log('aca llego mogo');
     var lastname = req.body.lastname;
     var age = req.body.age;
     var city = req.body.city;
+    var origen = req.body.origen;
+
     var role = req.body.role;
     var password = req.body.password;
 
@@ -64,6 +72,7 @@ console.log('aca llego mogo');
     newUser.local.email = email;
     newUser.local.role = role;
     newUser.local.city = city;
+    newUser.local.origen = origen;
     newUser.local.name = name;
     newUser.local.lastname = lastname;
     newUser.local.age = age;
@@ -91,7 +100,11 @@ router.get('/usuarios/modificar/:id', isLoggedIn, function(req, res) {
             console.log("Error:", err);
         }
         else {
-            res.render('admin/usuario_modificar', {user: req.user, list: list});
+            Oficinas.find((err, oficinas)=>{
+                console.log(oficinas);
+                if(err) throw err;
+                res.render('admin/usuario_modificar', {user: req.user, list: list,oficinas:oficinas});
+            });
         }
     }); });
 
@@ -102,11 +115,12 @@ router.post('/usuarios/modificar/:id', isLoggedIn, function(req, res) {
     var email = req.body.email;
     var name = req.body.name;
     var city = req.body.city;
+    var origen = req.body.origen;
     var lastname = req.body.lastname;
     var age = req.body.age;
     var role = req.body.role;
     //var id = req.body._id;
-    User.findByIdAndUpdate({'_id': id },{'local.name':name,'local.lastname':lastname,'local.email':email,'local.age':age,'local.role':role,'local.city':city},function(err) {
+    User.findByIdAndUpdate({'_id': id },{'local.name':name,'local.lastname':lastname,'local.email':email,'local.age':age,'local.role':role,'local.city':city,'local.origen':origen},function(err) {
         if(err) {
             console.log(err);
         } else {
@@ -151,7 +165,12 @@ router.get('/logistics/rutas',isLoggedIn ,(req,res)=>{
 
 
 router.get('/logistics/nuevo', isLoggedIn, function(req, res) {
-    res.render('logistics/ruta_nueva', { user: req.user });
+    Oficinas.find((err, oficinas)=>{
+        console.log(oficinas);
+        if(err) throw err;
+        res.render('logistics/ruta_nueva', { user: req.user,oficinas: oficinas });
+    });
+ 
 });
 
 
@@ -162,14 +181,14 @@ router.post('/logistics/nuevo/crear', isLoggedIn, function(req, res) {
         var inicio = req.body.inicio;
         var fin = req.body.fin;
         var ruta = (inicio+' - '+fin);
-    
+        var id_ruta = req.body.id_ruta;
      
     
         var nueva_ruta = new LOGISTICS();
         nueva_ruta.rutas.inicio = inicio;
         nueva_ruta.rutas.fin = fin;
         nueva_ruta.rutas.ruta = ruta;
-
+        nueva_ruta.rutas.id_ruta = id_ruta;
     
         nueva_ruta.save(function(err) {
             if(err) {
@@ -194,7 +213,13 @@ router.get('/logistics/rutas/modificar/:id', isLoggedIn, function(req, res) {
             console.log("Error:", err);
         }
         else {
-            res.render('logistics/ruta_modificar', {user: req.user, listLogistics: listLogistics});
+            Oficinas.find((err, oficinas)=>{
+                console.log(oficinas);
+                if(err) throw err;
+            
+                res.render('logistics/ruta_modificar', {user: req.user, listLogistics: listLogistics,oficinas: oficinas});
+
+            });
         }
     });
  });
@@ -260,6 +285,7 @@ router.post('/logistics/camion/nuevo/crear', isLoggedIn, function(req, res) {
     var modelo = req.body.modelo;
     var placa = req.body.placa;
     var color = req.body.color;
+    var id_camion = req.body.id_camion;
   
 
 
@@ -268,7 +294,7 @@ console.log();
 nuevo_camion.camiones.modelo = modelo;
 nuevo_camion.camiones.placa = placa;
 nuevo_camion.camiones.color = color;
-
+nuevo_camion.camiones.id_camion = id_camion;
 
 nuevo_camion.save(function(err) {
         if(err) {
@@ -305,9 +331,10 @@ console.log(id);
 var modelo = req.body.modelo;
 var placa = req.body.placa;
 var color = req.body.color;
+var id_camion = req.body.id_camion;
 
 
-Camiones.findByIdAndUpdate({'_id': id },{'camiones.modelo':modelo,'camiones.placa':placa,'camiones.color':color},function(err) {
+Camiones.findByIdAndUpdate({'_id': id },{'camiones.modelo':modelo,'camiones.placa':placa,'camiones.color':color,'camiones.id_camion':id_camion},function(err) {
     if(err) {
         console.log(err);
     } else {
@@ -335,6 +362,107 @@ Camiones.remove({'_id': id }, (err) => {
 });
 
 //------
+
+
+router.get('/logistics/oficinas',isLoggedIn ,(req,res)=>{
+    Oficinas.find((err, oficinas)=>{
+        console.log(oficinas);
+        if(err) throw err;
+        res.render('logistics/oficinas',{user: req.user, oficinas: oficinas});
+    });
+});
+
+
+router.get('/logistics/oficinas/nuevo', isLoggedIn, function(req, res) {
+res.render('logistics/oficinas_nueva', { user: req.user });
+});
+
+
+
+
+router.post('/logistics/oficinas/nuevo/crear', isLoggedIn, function(req, res) {
+
+    var pais = req.body.pais;
+    var provincia = req.body.provincia;
+    var descripcion = req.body.descripcion;
+    var id_oficina = req.body.id_oficina;
+ 
+
+    var nueva_oficina = new Oficinas();
+    nueva_oficina.oficinas.pais = pais;
+    nueva_oficina.oficinas.provincia = provincia;
+    nueva_oficina.oficinas.descripcion = descripcion;
+    nueva_oficina.oficinas.id_oficina = id_oficina;
+
+
+    nueva_oficina.save(function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            Oficinas.find((err, oficinas) => {
+                console.log(oficinas);
+                if (err) throw err;
+                res.render('logistics/oficinas',{ user: req.user ,oficinas: oficinas});
+            });
+
+        }
+    });
+});
+
+
+
+router.get('/logistics/oficinas/modificar/:id', isLoggedIn, function(req, res) {
+    Oficinas.findOne({_id: req.params.id}).exec(function (err, oficinas) {
+    console.log(oficinas);
+    if (err) {
+        console.log("Error:", err);
+    }
+    else {
+        res.render('logistics/oficinas_modificar', {user: req.user, oficinas: oficinas});
+    }
+});
+});
+
+router.post('/logistics/oficinas/modificar/:id',isLoggedIn,(req,res )=>{
+var id = req.params.id;
+console.log(id);
+
+var pais = req.body.pais;
+var provincia = req.body.provincia;
+var descripcion = req.body.descripcion;
+var id_oficina = req.body.id_oficina;
+
+
+
+Oficinas.findByIdAndUpdate({'_id': id },{'oficinas.pais':pais,'oficinas.provincia':provincia,'oficinas.descripcion':descripcion, 'oficinas.id_oficina':id_oficina},function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        Oficinas.find((err, oficinas) => {
+            console.log(oficinas);
+            if (err) throw err;
+            res.render('logistics/oficinas',{ user: req.user ,oficinas: oficinas});
+        });
+    }
+});
+});
+
+
+
+router.get('/logistics/oficinas/eliminar/:id', (req, res) => {
+let id = req.params.id;
+Oficinas.remove({'_id': id }, (err) => {
+    if (err) throw err;
+    Oficinas.find((err, oficinas) => {
+        console.log(oficinas);
+        if (err) throw err;{}
+        res.render('logistics/oficinas',{ user: req.user ,oficinas: oficinas});
+    });
+});
+});
+
+
+//-----
 
 
 

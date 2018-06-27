@@ -60,18 +60,35 @@
 
                             <div class="row form-group">
                             <div class="col col-md-3">
-                                <label for="city" class=" form-control-label">Ciudad</label>
+                                <label for="city" class=" form-control-label">Oficina</label>
                             </div>
                             <div class="col-12 col-md-9">
                                 <select name="city" class="form-control">
                                     <option >....</option>
+               
+                                    <% for(var i=0; i<oficinas.length; i++) {%>
 
-                                    <option value="David">David</option>
-                                    <option value="Panama">Panama</option>
-                                  
+                                    <option value="<%= oficinas[i].oficinas.provincia   %> | <%= oficinas[i].oficinas.descripcion   %>"><h2><%= oficinas[i].oficinas.provincia %> </h2>| <%= oficinas[i].oficinas.descripcion%></option>
+                                    <% } %>
                                 </select>
                             </div>
                         </div>
+
+                        <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="city" class=" form-control-label">Provincia</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <select name="origen" class="form-control">
+                                <option >....</option>
+        
+                                <option value="BOCAS DEL TORO">BOCAS DEL TORO</option>
+                                <option value="CHIRIQUI">CHIRIQUI</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+
 
 
 

@@ -38,9 +38,11 @@
                                 <option value="<%= listLogistics.rutas.inicio %>"><%= listLogistics.rutas.inicio %></option>
                                 <option value=""></option>
 
-                                    <option value="David">David</option>
-                                    <option value="Panama">Panama</option>
-                                    <option value="Bocas del toro">Bocas del toro</option>
+                                             
+                            <% for(var i=0; i<oficinas.length; i++) {%>
+
+                            <option value="<%= oficinas[i].oficinas.provincia %>"><h2><%= oficinas[i].oficinas.provincia %> </h2></option>
+                            <% } %>
                                   
                                 </select>
                             </div>
@@ -56,14 +58,24 @@
                                     <select name="fin" class="form-control">
                                     <option value="<%= listLogistics.rutas.fin %>"><%= listLogistics.rutas.fin %></option>
                                     <option value=""></option>
-                                        <option value="David">David</option>
-                                        <option value="Panama">Panama</option>
-                                        <option value="Bocas del toro">Bocas del toro</option>
-                                   
+                                                
+                            <% for(var i=0; i<oficinas.length; i++) {%>
+
+                            <option value="<%= oficinas[i].oficinas.provincia %>"><h2><%= oficinas[i].oficinas.provincia %> </h2></option>
+                            <% } %>
                                     </select>
                                 </div>
                             </div>
 
+                            <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="id_ruta" class=" form-control-label">Identicador de Ruta</label>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <input type="text" id="id_ruta" name="id_ruta" placeholder="Escriba el id_ruta..." class="form-control" value="<%= listLogistics.rutas.id_ruta %>">
+        
+                            </div>
+                            </div>
 
 
 

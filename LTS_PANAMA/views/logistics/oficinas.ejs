@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+
+    <%- include('../Layouts/left_sidebar_logistics') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+            <style>
+                h1.color_azul{
+                    color:#0069d9;
+                }
+            </style>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;    Todos Las Oficinas</h1>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <br>
+                    <a href="/logistics/oficinas/nuevo" class="btn btn-primary">Agregar una Oficina</a>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Pais</th>
+                            <th>Provincia</th>
+                            <th>Descripcion de oficina</th>
+                            <th>Identificador de oficina</th>
+                          
+                            <th>Modificar</th>
+                            <th>Eliminar</th>
+
+                            <% for(var i=0; i<oficinas.length; i++) {%>
+
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td> <%= oficinas[i].oficinas.pais %></td>
+                            <td> <%= oficinas[i].oficinas.provincia %></td>
+                            <td> <%= oficinas[i].oficinas.descripcion %></td>
+                            <td> <%= oficinas[i].oficinas.id_oficina %></td>
+                        
+                            <!-- Verificar-->
+                            <td><a href="/logistics/oficinas/modificar/<%= oficinas[i]._id%>">Modificar</a></td>
+                            <td><a href="/logistics/oficinas/eliminar/<%= oficinas[i]._id%>">Eliminar</a></td>                        </tr>
+                        <% } %>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+<footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

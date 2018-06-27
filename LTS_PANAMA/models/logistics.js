@@ -6,15 +6,9 @@ var LogisticsSchema = mongoose.Schema({
        ruta: String,
        inicio: String,
        fin: String,
-       
+       id_ruta: Number,
     },
-    camiones: {
-       
-        Modelo: String,
-        color: String,
-        Placa: String,
-        
-     },
+
 });
 
 module.exports = mongoose.model('Logistics', LogisticsSchema);

@@ -30,7 +30,7 @@
                             <th>Modelo</th>
                             <th>Placa</th>
                             <th>Color</th>
-                          
+                            <th>Identificador de camion</th>
                             <th>Modificar</th>
                             <th>Eliminar</th>
 
@@ -42,7 +42,8 @@
                             <td> <%= camiones[i].camiones.modelo %></td>
                             <td> <%= camiones[i].camiones.placa %></td>
                             <td> <%= camiones[i].camiones.color %></td>
-                        
+                            <td> <%= camiones[i].camiones.id_camion %></td>
+
                             <!-- Verificar-->
                             <td><a href="/logistics/camion/modificar/<%= camiones[i]._id%>">Modificar</a></td>
                             <td><a href="/logistics/camion/eliminar/<%= camiones[i]._id%>">Eliminar</a></td>                        </tr>

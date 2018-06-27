@@ -30,7 +30,7 @@
                             <th>Ruta Completa</th>
                             <th>Inicio</th>
                             <th>Fin</th>
-                          
+                            <th>Identificador de ruta</th>
                             <th>Modificar</th>
                             <th>Eliminar</th>
 
@@ -42,7 +42,8 @@
                             <td> <%= listLogistics[i].rutas.ruta %></td>
                             <td> <%= listLogistics[i].rutas.inicio %></td>
                             <td> <%= listLogistics[i].rutas.fin %></td>
-                        
+                            <td> <%= listLogistics[i].rutas.id_ruta %></td>
+
                             <!-- Verificar-->
                             <td><a href="/logistics/rutas/modificar/<%= listLogistics[i]._id%>">Modificar</a></td>
                             <td><a href="/logistics/rutas/eliminar/<%= listLogistics[i]._id%>">Eliminar</a></td>                        </tr>

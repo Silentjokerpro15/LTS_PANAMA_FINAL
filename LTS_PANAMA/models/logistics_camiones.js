@@ -7,7 +7,7 @@ var CamionesSchema = mongoose.Schema({
         modelo: String,
         color: String,
         placa: String,
-        
+        id_camion: Number,
      },
 });
 

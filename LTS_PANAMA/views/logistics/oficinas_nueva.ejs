@@ -21,52 +21,53 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h1 class="color_azul"> Creacion de Usuarios</h1>
+                        <h1 class="color_azul"> Creacion de Oficina</h1>
                     </div>
                     <div class="card-body card-block">
 
                         <!--Envio de datos para hacer registro de usuarios-->
-                        <form action="/logistics/camion/modificar/<%= camiones._id%>"  method="post" class="form-horizontal">
+                        <form action="/logistics/oficinas/nuevo/crear" method="post" class="form-horizontal">
 
                         <div class="row form-group">
                         <div class="col col-md-3">
-                            <label for="modelo" class=" form-control-label">Modelo</label>
+                            <label for="pais" class=" form-control-label">Pais</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="modelo" name="modelo" placeholder="Escriba el modelo..." class="form-control" value="<%= camiones.camiones.modelo %>">
+                            <input type="text" id="pais" name="pais" placeholder="Escriba el Pais..." class="form-control">
 
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col col-md-3">
-                            <label for="placa" class=" form-control-label">Placa</label>
+                            <label for="provincia" class=" form-control-label">Provincia</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="text" id="placa" name="placa" placeholder="Escriba ll placa..." class="form-control" value="<%= camiones.camiones.placa %>">
+                            <input type="text" id="provincia" name="provincia" placeholder="Escriba ll provincia..." class="form-control">
 
                         </div>
                     </div>
-
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="color" class=" form-control-label">Color</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="text" id="color" name="color" placeholder="Escriba el color..." class="form-control" value="<%= camiones.camiones.color %>">
-
-                        </div>
-                    </div>
-
 
                     <div class="row form-group">
                     <div class="col col-md-3">
-                        <label for="id_camion" class=" form-control-label">Identificador de camion</label>
+                        <label for="descripcion" class=" form-control-label">Descripcion</label>
                     </div>
                     <div class="col-12 col-md-9">
-                        <input type="text" id="id_camion" name="id_camion" placeholder="Escriba el id_camion..." class="form-control" value="<%= camiones.camiones.color %>">
+                        <input type="text" id="descripcion" name="descripcion" placeholder="Escriba la descripcion..." class="form-control">
 
                     </div>
                 </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="id_oficina" class=" form-control-label">Identidicar Oficina</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" id="id_oficina" name="id_oficina" placeholder="Escriba el id_id_oficinaprovincia..." class="form-control">
+
+                        </div>
+                    </div>
+
+
 
 
                   
