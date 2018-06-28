@@ -6,7 +6,7 @@ var CounterSchema = mongoose.Schema({
         nombrec: String,
         nombree: String,
         cedula: String,
-        direccion: String,
+        oficina: String,
         monto: Number,
         activo: Number,
        

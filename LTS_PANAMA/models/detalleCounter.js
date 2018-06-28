@@ -6,10 +6,11 @@ var DetalleSchema = mongoose.Schema({
         idcliente: String,
         descripcion: String,
         fragil: String,
+        direccion: String,
         enviado: Boolean,
         recibido: Boolean,
         activo: Number,
-      
+        manifiestoid: String,
        
     },
 });

@@ -17,24 +17,33 @@
                     color:#0069d9;
                 }
             </style>
-            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Pedidos del día </h1>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Añadir detalle </h1>
+           
             <br>
 
             <div class="container">
+                   
+                 
                 <div class="row">
                     <br>
-                    <a href="/counter/create" class="btn btn-primary"> Nuevo Pedido</a>
+               
                  
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th></th>
-                              <th>Registro </th>
-                               <th>Código Paquete</th>
+                           <th>Código Paquete</th>
+                
+                            <th>Cédula Cliente</th>
+                        
+
+                 
+
+                               <th> Descripcion </th>
                             <th>Frágil</th>
 
                             <th>Enviado</th>
                             <th>Recibido</th>
+                                    <th>+DETALLE</th>
                        
                           
                           
@@ -45,19 +54,23 @@
                         <% for(var i=0; i<listdetalle.length;i++) { %>
 
                         <tr>
+                          <td><%= listdetalle[i]._id%></td>
+
                             <td><%= listdetalle[i].local.idcliente%></td>
+                           
                              <td><%= listdetalle[i].local.descripcion%></td>
                             <td><%= listdetalle[i].local.fragil%></td>
                            
                             <td><%= listdetalle[i].local.enviado%></td>
-                            <td><%= listd[i].local.recibido%></td>
+                            <td><%= listdetalle[i].local.recibido%></td>
                      
-                         <td><a href="/counter/detalle/<%= listclientes[i]._id%>"></a></td>
+                         <td><a href="/counter/detalle/create/<%= listdetalle[i].local.idcliente%>">Nuevo detalle</a></td>
                            
                         </tr>
                          <% } %>
 
                     </table>
+                
                 </div>
             </div>
 

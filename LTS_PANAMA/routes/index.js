@@ -474,7 +474,10 @@ Oficinas.remove({'_id': id }, (err) => {
 //_____________________________INICIO COUNTEER______________________________________________\\
 
 router.get('/counter', isLoggedIn,(req, res) =>{
- Counter.find((err, listclientes) => {
+    console.log(req.user)
+    var number = 1;
+    var sucursal = 'david';
+    Counter.find({'local.activo':number, 'local.oficina': sucursal},(err, listclientes) => {
         console.log(listclientes);
         if (err) throw err;
                                     //user: req.user es donde viene la variable de session
@@ -499,14 +502,16 @@ router.post('/counter/modificar/:id', isLoggedIn, function(req, res) {
     var email = req.body.nombrec;
     var name = req.body.cedula;
     var lastname = req.body.nombree;
-    var age = req.body.direccion;
+
   
     //var id = req.body._id;
-    Counter.findByIdAndUpdate({'_id': id },{'local.nombrec':email,'local.cedula':name,'local.nombree':lastname,'local.direccion':age,},function(err) {
+    Counter.findByIdAndUpdate({'_id': id },{'local.nombrec':email,'local.cedula':name,'local.nombree':lastname,},function(err) {
         if(err) {
             console.log(err);
         } else {
-            Counter.find((err, listclientes) => {
+             var number = 1;
+             var sucursal = 'david';
+             Counter.find({'local.activo':number, 'local.oficina': sucursal},(err, listclientes) => {
                 console.log(listclientes);
                 if (err) throw err;
                 res.render('counter/index',{ user: req.user ,listclientes: listclientes});
@@ -514,30 +519,26 @@ router.post('/counter/modificar/:id', isLoggedIn, function(req, res) {
         }
     });
 });
-
-/*router.get('/counter/eliminar/:id', (req, res) => {
-    let id = req.params.id;
-    var number = 0;
-    Counter.findByIdAndUpdate({'_id': id },{'local.activo':number,}, (err) => {
-        if (err) throw err;
-        Counter.find((err, listclientes) => {
-            console.log(listclientes);
-            if (err) throw err;{}
-            res.render('counter/index',{ user: req.user ,listclientes: listclientes});
-        });
-    });
-});*/
-
+//El eliminar no removera los datos del cliente sino que actualizara el valor de activo  a 0
 router.get('/counter/eliminar/:id', (req, res) => {
     let id = req.params.id;
+    var number = 0;
 
-    Counter.remove({'_id': id },(err) => {
+    Counter.findByIdAndUpdate({'_id': id },{'local.activo':number,},function(err){
+        if (err){
+       console.log(err);
+        }else 
+        {
+
         if (err) throw err;
-        Counter.find((err, listclientes) => {
+              var num = 1;
+              var sucursal = 'david';
+            Counter.find({'local.activo':num, 'local.oficina': sucursal},(err, listclientes) => {
             console.log(listclientes);
             if (err) throw err;{}
             res.render('counter/index',{ user: req.user ,listclientes: listclientes});
         });
+          }
     });
 });
 
@@ -559,7 +560,7 @@ console.log('Aquí estoy');
     newCliente.local.nombrec = nombrec;
     newCliente.local.nombree = nombree;
     newCliente.local.cedula = cedula;
-    newCliente.local.direccion = direccion;
+    newCliente.local.oficina = direccion;
     newCliente.local.monto = monto;
     newCliente.local.activo = activo;
 
@@ -567,7 +568,10 @@ console.log('Aquí estoy');
         if(err) {
             console.log(err);
         } else {
-            Counter.find((err, listclientes) => {
+            var number = 1;
+           var sucursal = 'david';
+            Counter.find({'local.activo':number, 'local.oficina': sucursal},(err, listclientes) => {
+           
                 console.log(listclientes);
                 if (err) throw err;
                 res.render('counter/index',{ user: req.user ,listclientes: listclientes});
@@ -582,9 +586,9 @@ router.get('/counter/create', isLoggedIn, function(req, res) {
 
 
 //Esto aun no  FUNCIONA 
-/*router.get('/counter/detalle/:id', isLoggedIn, function(req, res) {
-    let id = req.params.id;
-    Counterdetalle.findOne({'id:': id}, (err, listdetalle) => {
+router.get('/counter/detalle/:id', isLoggedIn, function(req, res) {
+   let id = req.params.id;
+    Counterdetalle.find({'local.idcliente': id},(err, listdetalle) => {
    
         if (err) throw err;
                                     //user: req.user es donde viene la variable de session
@@ -592,44 +596,50 @@ router.get('/counter/create', isLoggedIn, function(req, res) {
     });
 });
 
-
-
-
 router.post('/counter/detalle/save/:id', isLoggedIn, function(req, res) {
 console.log('Aquí estoy');
-let id = req.params.id;
+  let id = req.params.id;
     var nombrec = req.body.nombrec;
-    var nombree = req.body.nombree;
-    var cedula = req.body.cedula;
-    var direccion= req.body.direccion;
-    var monto = req.body.monto;
+    var cedula = req.body.fragil;
+    var direccion = req.body.direccion;
     var activo = 1;
+    var enviado = false;
+    var recibido = false;
+    var manifiesto = '0';
 
 
-    var newCliente = new Counter(req.body);
+    var newdetalle = new Counterdetalle(req.body);
 
-    var newCliente = new Counter();
-    newCliente.local.nombrec = nombrec;
-    newCliente.local.nombree = nombree;
-    newCliente.local.cedula = cedula;
-    newCliente.local.direccion = direccion;
-    newCliente.local.monto = monto;
-    newCliente.local.activo = activo;
+    var newdetalle = new Counterdetalle();
+    newdetalle.local.idcliente = id;
+    newdetalle.local.descripcion = nombrec;
+    newdetalle.local.fragil = cedula;
+     newdetalle.local.direccion = direccion;
+   
+    newdetalle.local.enviado = enviado;
+       newdetalle.local.recibido = recibido;
 
-    newCliente.save(function(err) {
+        newdetalle.local.activo = activo;
+        newdetalle.local.manifiestoid = manifiesto;
+
+
+    newdetalle.save(function(err) {
         if(err) {
             console.log(err);
         } else {
-            Counter.find((err, listclientes) => {
-                console.log(listclientes);
+            Counterdetalle.find({'local.idcliente': id},(err, listdetalle) => {
+                console.log(listdetalle);
                 if (err) throw err;
-                res.render('counter/index',{ user: req.user ,listclientes: listclientes});
+                res.render('counter/detalle',{ user: req.user ,listdetalle: listdetalle});
             });
 
         }
     });
 });
-*/
+router.get('/counter/detalle/create/:id', isLoggedIn, function(req, res) {
+        let id = req.params.id;
+   res.render('counter/detalleagregar', { user: req.user, id });
+});
 
 
 //_____________________________FINAL COUNTER________________________________________________\\

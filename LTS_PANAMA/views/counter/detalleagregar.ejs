@@ -26,7 +26,7 @@
                     <div class="card-body card-block">
 
                         <!--Envio de datos para hacer registro de usuarios-->
-                        <form action="/counter/create/save" method="post" class="form-horizontal">
+                        <form action="/counter/detalle/save/<%=id%>/" method="post" class="form-horizontal">
 
 
                             <div class="row form-group">
@@ -54,9 +54,31 @@
                                     </select>
                                 </div>
                             </div>
+                         <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="role" class=" form-control-label">Direccion</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="direccion" class="form-control">
+                                        <option value="direccion">....</option>
+
+                                        <option value="Bocas del Toro">Bocas del Toro</option>
+                                        <option value="Cocle">Cocle</option>
+                                        <option value="Colon">Colón</option>
+                                        <option value="Chiriqui">Chiriquí</option>
+                                        <option value="Darien">Darien</option>
+                                              <option value="Herrera">Herrera</option>
+                                                    <option value="Los Santos">Los Santos</option
+                                                          <option value="Panama">Panamá</option>
+                                                                <option value="Veraguas">Veraguas</option>
+                                                                      <option value="Panama Oeste">Panamá Oeste</option>
+
+                                    </select>
+                                </div>
+                            </div>
 
                             <div>
-                                <input type="submit" class="form-control" value="Submit" />
+                                <input type="submit" class="form-control" value="Submit"/>
                             </div>
                         </form>
                     </div>

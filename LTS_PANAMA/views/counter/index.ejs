@@ -49,10 +49,10 @@
                              <td><%= listclientes[i].local.cedula%></td>
                             <td><%= listclientes[i].local.nombree%></td>
                            
-                            <td><%= listclientes[i].local.direccion%></td>
+                            <td><%= listclientes[i].local.oficina%></td>
                             <td><%= listclientes[i].local.monto%></td>
                             <td><a href="/counter/modificar/<%= listclientes[i]._id%>">Modificar</a></td>
-                                 <td><a href="/counter/detalle/<%= listclientes[i]._id%>">Detalle</a></td>
+                                 <td><a href="/counter/detalle/create/<%= listclientes[i].local.cedula%>">Detalle</a></td>
                             <td><a href="/counter/eliminar/<%= listclientes[i]._id%>">Eliminar</a></td>
                         </tr>
                          <% } %>
