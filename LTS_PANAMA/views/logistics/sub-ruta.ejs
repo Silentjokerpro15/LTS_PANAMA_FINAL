@@ -23,7 +23,7 @@
             <div class="container">
                 <div class="row">
                     <br>
-                    <a href="/logistics/nuevo" class="btn btn-primary"> Nueva Ruta</a>
+                    <a href="/logistics/sub-ruta/nuevo" class="btn btn-primary"> Nueva Sub-Ruta</a>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -31,9 +31,7 @@
                             <th>Inicio</th>
                             <th>Fin</th>
                             <th>Identificador de ruta</th>
-                            <th>Agregar Sub- Ruta</th>
-                            <th>Modificar</th>
-                            <th>Eliminar</th>
+                            <th>Identificador de Sub-ruta</th>
 
                             <% for(var i=0; i<listLogistics.length; i++) {%>
 
@@ -44,12 +42,10 @@
                             <td> <%= listLogistics[i].rutas.inicio %></td>
                             <td> <%= listLogistics[i].rutas.fin %></td>
                             <td> <%= listLogistics[i].rutas.id_ruta %></td>
+                            <td> <%= listLogistics[i].rutas.id_subruta %></td>
 
-                            <!-- Verificar-->
-                            <td><a href="/logistics/sub-ruta/<%= listLogistics[i].rutas.id_ruta %>">Sub-Ruta</a></td>
-
-                            <td><a href="/logistics/rutas/modificar/<%= listLogistics[i]._id%>">Modificar</a></td>
-                            <td><a href="/logistics/rutas/eliminar/<%= listLogistics[i]._id%>">Eliminar</a></td>                        </tr>
+                            
+                                       </tr>
                         <% } %>
                     </table>
                 </div>

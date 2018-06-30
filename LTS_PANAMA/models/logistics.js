@@ -7,6 +7,7 @@ var LogisticsSchema = mongoose.Schema({
        inicio: String,
        fin: String,
        id_ruta: Number,
+       id_subruta: Number,
     },
 
 });

@@ -1,10 +1,11 @@
 var express = require('express');
 var passport = require('passport');
 var router = express.Router();
+
 var User = require('../models/user');
 var Counter = require('../models/Counter');
 var Counterdetalle = require('../models/detalleCounter');
-
+var Dispatcher = require('../models/dispatcher');
 var LOGISTICS = require('../models/logistics');
 var Camiones = require('../models/logistics_camiones');
 var Oficinas = require('../models/oficinas');
@@ -65,7 +66,7 @@ console.log('aca llego mogo');
     var role = req.body.role;
     var password = req.body.password;
 
-    console.log(role);
+    console.log(origen);
     var newUser = new User(req.body);
 
     var newUser = new User();
@@ -156,7 +157,7 @@ router.get('/logistics', isLoggedIn, (req, res) =>{
 });
 
 router.get('/logistics/rutas',isLoggedIn ,(req,res)=>{
-        LOGISTICS.find((err, listLogistics)=>{
+        LOGISTICS.find({'rutas.id_subruta':null},(err, listLogistics)=>{
             console.log(listLogistics);
             if(err) throw err;
             res.render('logistics/rutas',{user: req.user, listLogistics: listLogistics});
@@ -172,6 +173,15 @@ router.get('/logistics/nuevo', isLoggedIn, function(req, res) {
     });
  
 });
+
+
+router.get('/logistics/sub-ruta/nuevo', isLoggedIn, function(req, res) {
+   
+        res.render('logistics/sub-ruta_nueva', { user: req.user });
+    });
+ 
+
+
 
 
 
@@ -205,6 +215,42 @@ router.post('/logistics/nuevo/crear', isLoggedIn, function(req, res) {
     });
 
 
+
+
+    router.post('/logistics/sub-ruta/nuevo/crear', isLoggedIn, function(req, res) {
+   
+
+        var inicio = req.body.inicio;
+        var fin = req.body.fin;
+       
+        var id_ruta = req.body.id_ruta;
+        var id_subruta = req.body.id_subruta;
+     
+    
+        var nueva_ruta = new LOGISTICS();
+        nueva_ruta.rutas.inicio = inicio;
+        nueva_ruta.rutas.fin = fin;
+        nueva_ruta.rutas.id_subruta = id_subruta;
+        nueva_ruta.rutas.id_ruta = id_ruta;
+    
+        nueva_ruta.save(function(err) {
+            if(err) {
+                console.log(err);
+            } else {
+                LOGISTICS.find((err, listLogistics) => {
+                    console.log(listLogistics);
+                    if (err) throw err;
+                    res.render('logistics/rutas',{ user: req.user ,listLogistics: listLogistics});
+                });
+    
+            }
+        });
+     
+     
+    });
+
+
+
     
 router.get('/logistics/rutas/modificar/:id', isLoggedIn, function(req, res) {
     LOGISTICS.findOne({_id: req.params.id}).exec(function (err, listLogistics) {
@@ -223,6 +269,29 @@ router.get('/logistics/rutas/modificar/:id', isLoggedIn, function(req, res) {
         }
     });
  });
+
+ router.get('/logistics/sub-ruta/:id', isLoggedIn, function(req, res) {
+    let id_ruta = req.params.id;
+    console.log(id_ruta);
+    LOGISTICS.find({'rutas.id_ruta': id_ruta}).exec(function (err, listLogistics) {
+        console.log(listLogistics);
+        if (err) {
+            console.log("Error:", err);
+        }
+        else {
+      console.log(listLogistics);
+                res.render('logistics/sub-ruta', {user: req.user, listLogistics: listLogistics});
+
+            
+        }
+    });
+
+ });
+
+
+
+
+
 
  router.post('/logistics/modificar/:id',isLoggedIn,(req,res )=>{
     var id = req.params.id;
@@ -385,6 +454,7 @@ router.post('/logistics/oficinas/nuevo/crear', isLoggedIn, function(req, res) {
     var pais = req.body.pais;
     var provincia = req.body.provincia;
     var descripcion = req.body.descripcion;
+    var distrito = req.body.distrito;
     var id_oficina = req.body.id_oficina;
  
 
@@ -392,6 +462,7 @@ router.post('/logistics/oficinas/nuevo/crear', isLoggedIn, function(req, res) {
     nueva_oficina.oficinas.pais = pais;
     nueva_oficina.oficinas.provincia = provincia;
     nueva_oficina.oficinas.descripcion = descripcion;
+    nueva_oficina.oficinas.distrito = distrito;
     nueva_oficina.oficinas.id_oficina = id_oficina;
 
 
@@ -430,11 +501,12 @@ console.log(id);
 var pais = req.body.pais;
 var provincia = req.body.provincia;
 var descripcion = req.body.descripcion;
+var distrito = req.body.distrito;
 var id_oficina = req.body.id_oficina;
 
 
 
-Oficinas.findByIdAndUpdate({'_id': id },{'oficinas.pais':pais,'oficinas.provincia':provincia,'oficinas.descripcion':descripcion, 'oficinas.id_oficina':id_oficina},function(err) {
+Oficinas.findByIdAndUpdate({'_id': id },{'oficinas.pais':pais,'oficinas.provincia':provincia,'oficinas.descripcion':descripcion, 'oficinas.id_oficina':id_oficina, 'oficinas.distrito':distrito},function(err) {
     if(err) {
         console.log(err);
     } else {
@@ -474,16 +546,23 @@ Oficinas.remove({'_id': id }, (err) => {
 //_____________________________INICIO COUNTEER______________________________________________\\
 
 router.get('/counter', isLoggedIn,(req, res) =>{
+
+    res.render('counter/index',{ user: req.user });
+});
+
+router.get('/counter/todo', isLoggedIn,(req, res) =>{
     console.log(req.user)
     var number = 1;
-    var sucursal = 'david';
-    Counter.find({'local.activo':number, 'local.oficina': sucursal},(err, listclientes) => {
+    var sucursal = req.user.local.origen;
+
+    Counter.find({'local.activo':number, 'local.inicio': sucursal},(err, listclientes) => {
         console.log(listclientes);
         if (err) throw err;
                                     //user: req.user es donde viene la variable de session
-        res.render('counter/index',{ user: req.user ,listclientes: listclientes});
+        res.render('counter/counter',{ user: req.user ,listclientes: listclientes});
     });
 });
+
 router.get('/counter/modificar/:id', isLoggedIn, function(req, res) {
     Counter.findOne({_id: req.params.id}).exec(function (err, listup) {
         console.log(listup);
@@ -510,11 +589,11 @@ router.post('/counter/modificar/:id', isLoggedIn, function(req, res) {
             console.log(err);
         } else {
              var number = 1;
-             var sucursal = 'david';
-             Counter.find({'local.activo':number, 'local.oficina': sucursal},(err, listclientes) => {
+             var sucursal = req.user.local.origen;
+             Counter.find({'local.activo':number, 'local.inicio': sucursal},(err, listclientes) => {
                 console.log(listclientes);
                 if (err) throw err;
-                res.render('counter/index',{ user: req.user ,listclientes: listclientes});
+                res.render('counter/counter',{ user: req.user ,listclientes: listclientes});
             });
         }
     });
@@ -532,8 +611,8 @@ router.get('/counter/eliminar/:id', (req, res) => {
 
         if (err) throw err;
               var num = 1;
-              var sucursal = 'david';
-            Counter.find({'local.activo':num, 'local.oficina': sucursal},(err, listclientes) => {
+              var sucursal = req.user.local.origen;
+            Counter.find({'local.activo':num, 'local.inicio': sucursal},(err, listclientes) => {
             console.log(listclientes);
             if (err) throw err;{}
             res.render('counter/index',{ user: req.user ,listclientes: listclientes});
@@ -549,7 +628,13 @@ console.log('Aquí estoy');
     var nombrec = req.body.nombrec;
     var nombree = req.body.nombree;
     var cedula = req.body.cedula;
-    var direccion= req.body.direccion;
+    var id_pedido = req.body.id_pedido;
+    var sucursal = req.user.local.origen;
+
+    var inicio = req.user.origen;
+    var destino= req.body.destino;
+    console.log(destino);
+    console.log(sucursal);
     var monto = req.body.monto;
     var activo = 1;
 
@@ -557,10 +642,12 @@ console.log('Aquí estoy');
     var newCliente = new Counter(req.body);
 
     var newCliente = new Counter();
+    newCliente.local.id_pedido = id_pedido;
     newCliente.local.nombrec = nombrec;
     newCliente.local.nombree = nombree;
     newCliente.local.cedula = cedula;
-    newCliente.local.oficina = direccion;
+    newCliente.local.inicio = sucursal;
+    newCliente.local.destino = destino;
     newCliente.local.monto = monto;
     newCliente.local.activo = activo;
 
@@ -569,26 +656,33 @@ console.log('Aquí estoy');
             console.log(err);
         } else {
             var number = 1;
-           var sucursal = 'david';
-            Counter.find({'local.activo':number, 'local.oficina': sucursal},(err, listclientes) => {
+            var sucursal = req.user.local.origen;
+            Counter.find({'local.activo':number, 'local.inicio': sucursal},(err, listclientes) => {
            
                 console.log(listclientes);
                 if (err) throw err;
-                res.render('counter/index',{ user: req.user ,listclientes: listclientes});
+                res.render('counter/counter',{ user: req.user ,listclientes: listclientes});
             });
 
         }
     });
 });
 router.get('/counter/create', isLoggedIn, function(req, res) {
-    res.render('counter/create', { user: req.user });
+    Oficinas.find((err, oficinas)=>{
+        console.log(oficinas);
+        if(err) throw err;
+        res.render('counter/create', { user: req.user,oficinas: oficinas });
+     
+    });
+
+   
 });
 
 
 //Esto aun no  FUNCIONA 
 router.get('/counter/detalle/:id', isLoggedIn, function(req, res) {
    let id = req.params.id;
-    Counterdetalle.find({'local.idcliente': id},(err, listdetalle) => {
+    Counterdetalle.find({'local.id_pedido': id},(err, listdetalle) => {
    
         if (err) throw err;
                                     //user: req.user es donde viene la variable de session
@@ -611,7 +705,7 @@ console.log('Aquí estoy');
     var newdetalle = new Counterdetalle(req.body);
 
     var newdetalle = new Counterdetalle();
-    newdetalle.local.idcliente = id;
+    newdetalle.local.id_pedido = id;
     newdetalle.local.descripcion = nombrec;
     newdetalle.local.fragil = cedula;
      newdetalle.local.direccion = direccion;
@@ -627,7 +721,7 @@ console.log('Aquí estoy');
         if(err) {
             console.log(err);
         } else {
-            Counterdetalle.find({'local.idcliente': id},(err, listdetalle) => {
+            Counterdetalle.find({'local.id_pedido': id},(err, listdetalle) => {
                 console.log(listdetalle);
                 if (err) throw err;
                 res.render('counter/detalle',{ user: req.user ,listdetalle: listdetalle});
@@ -645,11 +739,6 @@ router.get('/counter/detalle/create/:id', isLoggedIn, function(req, res) {
 //_____________________________FINAL COUNTER________________________________________________\\
 
 
-//_____________________________FINAL MANIFEST________________________________________________\\
-router.get('/manifest', isLoggedIn, function(req, res) {
-    res.render('manifest/index', { user: req.user });
-});
-//_____________________________FINAL MANIFEST________________________________________________\\
 
 //_____________________________FINAL RECEIVERS________________________________________________\\
 
@@ -660,9 +749,217 @@ router.get('/receivers', isLoggedIn, function(req, res) {
 
 
 //_____________________________FINAL DISPATCHER________________________________________________\\
-router.get('/dispatcher', isLoggedIn, function(req, res) {
-    res.render('dispatcher/index', { user: req.user });
-});
+router.get('/dispatcher', isLoggedIn,(req, res) =>{
+    Dispatcher.find((err, listmanifest) => {
+           console.log(listmanifest);
+           if (err) throw err;
+                                       //user: req.user es donde viene la variable de session
+           res.render('dispatcher/manifest',{ user: req.user ,listmanifest: listmanifest});
+       });
+   });
+   
+   
+   //actualizar
+   
+   router.get('/dispatcher/update/:id', isLoggedIn, function(req, res) {
+       Dispatcher.findOne({_id: req.params.id}).exec(function (err, listup) {
+           console.log(listup);
+           if (err) {
+               console.log("Error:", err);
+           }
+           else {
+               res.render('dispatcher/update', {user: req.user, listup: listup});
+           }
+       }); });
+   
+   
+   router.post('/dispatcher/update/:id', isLoggedIn, function(req, res) {
+       var id = req.params.id;
+       console.log(id);
+       var idmanifest= req.body.idmanifest;
+       var fecha = req.body.fecha;
+       var camion = req.body.camion;
+       var conductor = req.body.conductor;
+       var ruta = req.body.ruta;
+     
+       //var id = req.body._id;
+       Dispatcher.findByIdAndUpdate({'_id': id },{'local.idmanifest':idmanifest,'local.fecha':fecha,'local.camion':camion,'local.conductor':conductor,'local.ruta':ruta,},function(err) {
+           if(err) {
+               console.log(err);
+           } else {
+               Dispatcher.find((err, listmanifest) => {
+                   console.log(listmanifest);
+                   if (err) throw err;
+                   res.render('dispatcher/manifest',{ user: req.user ,listmanifest: listmanifest});
+               });
+           }
+       });
+   });
+   
+   //Eliminar
+   router.get('/dispatcher/eliminar/:id', (req, res) => {
+       let id = req.params.id;
+   
+       Dispatcher.remove({'_id': id },(err) => {
+           if (err) throw err;
+           Dispatcher.find((err, listmanifest) => {
+               console.log(listmanifest);
+               if (err) throw err;{}
+               res.render('dispatcher/manifest',{ user: req.user ,listmanifest: listmanifest});
+           });
+       });
+   });
+   
+   //crear manifest
+   router.post('/dispatcher/create/save', isLoggedIn, function(req, res) {
+   console.log('Bomba');
+       var idmanifest = req.body.idmanifest;
+       var fecha = req.body.fecha;
+       var camion = req.body.camion;
+       var conductor= req.body.conductor;
+       var ruta = req.body.ruta;
+       var activo = 1;
+   
+   
+       var newManifest = new Dispatcher(req.body);
+   
+       var newManifest = new Dispatcher();
+       newManifest.local.idmanifest = idmanifest;
+       newManifest.local.fecha = fecha;
+       newManifest.local.camion = camion;
+       newManifest.local.conductor = conductor;
+       newManifest.local.ruta = ruta;
+       newManifest.local.activo = activo;
+   
+       newManifest.save(function(err) {
+           if(err) {
+               console.log(err);
+           } else {
+               Dispatcher.find((err, listmanifest) => {
+                   console.log(listmanifest);
+                   if (err) throw err;
+                   res.render('dispatcher/manifest',{ user: req.user ,listmanifest: listmanifest});
+               });
+           }
+       });
+   });
+   router.get('/dispatcher/create', isLoggedIn, function(req, res) {
+       res.render('dispatcher/create', { user: req.user });
+   });
+   
+   //monstrar los detalles con activo=1 
+   router.get('/dispatcher/detalle/:id', isLoggedIn, function(req, res) {
+      let id = req.params.id;
+      var number = 1;
+                Counterdetalle.find({'local.activo':number,},(err, listdetalle) => {
+                   console.log(listdetalle);
+                   if (err) throw err;
+                   res.render('dispatcher/detalle',{ user: req.user ,listdetalle: listdetalle});
+       });
+   });
+   router.get('/dispatcher/detalle/:id', isLoggedIn, function(req, res) {
+       let id = req.params.id;
+       console.log(id);
+       var idmanifest=req.user;
+       Counterdetalle.findByIdAndUpdate({'_id': id },{'local.manifiestoid':idmanifest},function(err) {
+           if(err) {
+               console.log(err);
+           } else {
+                var number = 0;
+                var enviado = false;
+                Counterdetalle.find({'local.activo':number,'local.enviado':enviado},(err, listdetalle) => {
+                   console.log(listdetalle);
+                   if (err) throw err;
+                   res.render('dispatcher/detalle',{ user: req.user ,listdetalle: listdetalle});
+               });
+           }
+       });
+   });
+   //ver la lista de paquetes dentro del manifest con activo=0
+   router.get('/dispatcher/ver/:id', isLoggedIn, function(req, res) {
+      console.log("llegue");
+       let id = req.params.id;
+       console.log(id);
+       var activo=0;
+       //var id = req.body._id;
+       Counterdetalle.findByIdAndUpdate({'_id': id },{'local.activo':activo,'local.manifiestoid':id},function(err) {
+           if(err) {
+               console.log(err);
+           } else {
+                var number = 0;
+                var enviado = false;
+                Counterdetalle.find({'local.activo':number,'local.enviado':enviado},(err, listdetalle) => {
+                   console.log(listdetalle);
+                   if (err) throw err;
+                   res.render('dispatcher/ver',{ user: req.user ,listdetalle: listdetalle});
+               });
+           }
+       });
+   });
+   
+   //agregar detalle al manifest
+   router.get('/dispatcher/detalle/save/uno/:id', isLoggedIn, function(req, res) {
+       console.log("llegue");
+       var id = req.params.id;
+       console.log(id);  
+       var activo=1;
+       Counterdetalle.findByIdAndUpdate({'_id': id },{'local.activo':activo,},function(err) {
+           if(err) {
+               console.log(err);
+           } else {
+                var number = 1;
+                Counterdetalle.find({'local.activo':number,},(err, listdetalle) => {
+                   console.log(listdetalle);
+                   if (err) throw err;
+                   res.render('dispatcher/detalle',{ user: req.user ,listdetalle: listdetalle});
+               });
+           }
+       });
+   });
+   //eliminar detalle
+   router.get('/dispatcher/eliminar_detalle/:id', (req, res) => {
+       let id = req.params.id;
+       Counterdetalle.remove({'_id': id },(err) => {
+           if (err) throw err;
+           Counterdetalle.find((err, listdetalle) => {
+               console.log(listdetalle);
+               if (err) throw err;{}
+               res.render('dispatcher/detalle',{ user: req.user ,listdetalle: listdetalle});
+           });
+       });
+   });
+   //Enviar al recividor
+   router.get('/dispatcher/finalizar/:id', isLoggedIn, function(req, res) {
+       console.log("llegue");
+       var id = req.params.id;
+       console.log(id);  
+       var enviado=true;
+       //var id = req.body._id;
+       Counterdetalle.findByIdAndUpdate({'_id': id },{'local.enviado':enviado,},function(err) {
+           if(err) {
+               console.log(err);
+           } else {
+                var enviado= true;
+                Counterdetalle.find({'local.enviado':enviado,},(err, listdetalle) => {
+                   console.log(listdetalle);
+                   if (err) throw err;
+                   res.render('dispatcher/envios',{ user: req.user ,listdetalle: listdetalle});
+               });
+           }
+       });
+   });
+   
+   
+   //monstrar los detalles enviados
+   router.get('/dispatcher/envios/:id', isLoggedIn, function(req, res) {
+      let id = req.params.id;
+      var enviado=true;
+                Counterdetalle.find({'local.enviado':enviado,},(err, listdetalle) => {
+                   console.log(listdetalle);
+                   if (err) throw err;
+                   res.render('dispatcher/envios',{ user: req.user ,listdetalle: listdetalle});
+       });
+   });
 //_____________________________FINAL DISPATCHER________________________________________________\\
 
 

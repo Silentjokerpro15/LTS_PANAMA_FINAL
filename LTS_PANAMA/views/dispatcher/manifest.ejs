@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+
+    <%- include('../Layouts/left_sidebar_dispatcher') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+            <style>
+                h1.color_azul{
+                    color:#0069d9;
+                }
+            </style>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Lista de Manifest </h1>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <br>
+                    <a href="/dispatcher/create" class="btn btn-primary"> Nuevo manifest</a>
+                 
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Fecha</th>
+                            <th>Camion</th>
+                            <th>Conductor</th>
+                            <th>Ruta</th>
+
+                            <th>Agregar</th>
+                            <th>Enviar</th>
+                            <th>Modificar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                        </thead>
+                        <% for(var i=0; i<listmanifest.length;i++) { %>
+
+                        <tr>
+                            <td><%= listmanifest[i]._id%></td>
+                             <td><%= listmanifest[i].local.fecha%></td>
+                            <td><%= listmanifest[i].local.camion%></td>
+                           
+                            <td><%= listmanifest[i].local.conductor%></td>
+                            <td><%= listmanifest[i].local.ruta%></td>
+                            <td><a href="/dispatcher/detalle/<%= listmanifest[i]._id%>">Paquetes</a></td>
+                            <td><a href="/dispatcher/ver/<%= listmanifest[i]._id%>">Paquete</a></td>
+                            <td><a href="/dispatcher/update/<%= listmanifest[i]._id%>">Modificar</a></td>
+                            <td><a href="/dispatcher/eliminar/<%= listmanifest[i]._id%>">Eliminar</a></td>
+                        </tr>
+                         <% } %>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

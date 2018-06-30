@@ -6,10 +6,11 @@ var CounterSchema = mongoose.Schema({
         nombrec: String,
         nombree: String,
         cedula: String,
-        oficina: String,
+        inicio: String,
+        destino: String,
         monto: Number,
         activo: Number,
-       
+       id_pedido: Number,
     },
 });
 

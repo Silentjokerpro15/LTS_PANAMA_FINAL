@@ -7,6 +7,7 @@ var OficinasSchema = mongoose.Schema({
         pais: String,
         provincia: String,
         descripcion: String,
+        distrito: String,
         id_oficina: Number,
         
      },

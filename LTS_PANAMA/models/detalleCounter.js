@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var DetalleSchema = mongoose.Schema({
     local: {
        
-        idcliente: String,
+        id_pedido: Number,
         descripcion: String,
         fragil: String,
         direccion: String,

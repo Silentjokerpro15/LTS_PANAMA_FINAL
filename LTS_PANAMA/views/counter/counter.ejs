@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../Layouts/head') %></head>
+<body class="animsition">
+<div class="page-wrapper">
+    <header ><%- include('../Layouts/header.ejs') %></header>
+
+    <%- include('../Layouts/left_sidebar_counter') %>
+
+    <div class="page-container">
+        <%- include('../Layouts/header_menu') %>
+
+
+        <div class="main-content">
+            <style>
+                h1.color_azul{
+                    color:#0069d9;
+                }
+            </style>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Pedidos del día </h1>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <br>
+                    <a href="/counter/create" class="btn btn-primary"> Nuevo Pedido</a>
+                 
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                        <th>Id Pedido</th>
+                            <th>Nombre Cliente</th>
+                              <th>Cédula </th>
+                            <th>Nombre envio</th>
+                       
+                            <th>Lugar Inicial Envio</th>
+                            <th>Lugar Final Envio</th>
+                            <th>Monto</th>
+                            <th>Modificar</th>
+                            <th>Detalle</th>
+                            <th>Eliminar</th>
+
+
+                        </tr>
+                        </thead>
+                        <% for(var i=0; i<listclientes.length;i++) { %>
+
+                        <tr>
+                        <td><%= listclientes[i].local.id_pedido%></td>
+                            <td><%= listclientes[i].local.nombrec%></td>
+                             <td><%= listclientes[i].local.cedula%></td>
+                            <td><%= listclientes[i].local.nombree%></td>
+                            <td><%= listclientes[i].local.inicio%></td>
+                            <td><%= listclientes[i].local.destino%></td>
+                            <td><%= listclientes[i].local.monto%></td>
+                            <td><a href="/counter/modificar/<%= listclientes[i]._id%>">Modificar</a></td>
+                                 <td><a href="/counter/detalle/create/<%= listclientes[i].local.id_pedido%>">Detalle</a></td>
+                            <td><a href="/counter/eliminar/<%= listclientes[i]._id%>">Eliminar</a></td>
+                        </tr>
+                         <% } %>
+
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+<footer><%- include('../Layouts/footer') %></footer>
+
+</body>
+</html>

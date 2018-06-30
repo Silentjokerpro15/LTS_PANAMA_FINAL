@@ -5,7 +5,7 @@
 <div class="page-wrapper">
     <header ><%- include('../Layouts/header.ejs') %></header>
 
-    <%- include('../Layouts/left_sidebar_counter') %>
+    <%- include('../Layouts/left_sidebar_dispatcher') %>
 
     <div class="page-container">
         <%- include('../Layouts/header_menu') %>
@@ -17,7 +17,7 @@
                     color:#0069d9;
                 }
             </style>
-            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Añadir detalle </h1>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Enviar detalle </h1>
            
             <br>
 
@@ -34,17 +34,15 @@
                            <th>Código Paquete</th>
                 
                             <th>Cédula Cliente</th>
-                        
-
-                 
-
-                               <th> Descripcion </th>
+                            <th> Descripcion </th>
                             <th>Frágil</th>
 
                             <th>Enviado</th>
                             <th>Recibido</th>
-                                    <th>+DETALLE</th>
-                       
+
+                            <th>restaurar</th>
+
+                            <th>finalizar</th>
                           
                           
 
@@ -56,16 +54,15 @@
                         <tr>
                           <td><%= listdetalle[i]._id%></td>
 
-                            <td><%= listdetalle[i].local.id_pedido%></td>
+                            <td><%= listdetalle[i].local.idcliente%></td>
                            
                              <td><%= listdetalle[i].local.descripcion%></td>
                             <td><%= listdetalle[i].local.fragil%></td>
                            
                             <td><%= listdetalle[i].local.enviado%></td>
                             <td><%= listdetalle[i].local.recibido%></td>
-                     
-                         <td><a href="/counter/detalle/create/<%= listdetalle[i].local.id_pedido%>">Nuevo detalle</a></td>
-                           
+                        <td><a href="/dispatcher/detalle/save/uno/<%= listdetalle[i]._id%>">Paquete</a></td>
+                         <td><a href="/dispatcher/finalizar/<%= listdetalle[i]._id%>">finalizar</a></td>
                         </tr>
                          <% } %>
 
