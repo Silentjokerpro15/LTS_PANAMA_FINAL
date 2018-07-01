@@ -963,6 +963,33 @@ router.get('/dispatcher', isLoggedIn,(req, res) =>{
 //_____________________________FINAL DISPATCHER________________________________________________\\
 
 
+//___________INICIO RECIEVER_______________
+
+router.get('/recieved', isLoggedIn, function(req, res) {
+    Counterdetalle.find(
+        {
+            'local.enviado': true, 
+            'local.recibido': false, 
+            'local.direccion': req.user.local.origen
+        }, (err, list) => {
+            if (err) throw err;
+            res.render('receivers/index', {list: list});
+        }
+    );
+});
+
+router.get('/markrecieved/:id', isLoggedIn, function(req, res) {
+    Counterdetalle.findByIdAndUpdate(
+        {'_id': req.params.id}, { 'local.recibido': true }, (err) => {
+            if (err) throw err;
+            res.redirect('/recieved');
+        }
+    );
+});
+
+
+//___________FINAL RECIEVER_______________
+
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -1029,7 +1056,7 @@ router.post('/login',
                                                     } else if (Role === "RECEIVERS") {
             console.log('eres un puto receivers');
 
-            return res.redirect('/receivers');
+            return res.redirect('/recieved');
                                                                 }else if(Role ==="DISPATCHER"){
                                                                     return res.redirect('/dispatcher');
         }else if(Role === "LOGISTICS"){

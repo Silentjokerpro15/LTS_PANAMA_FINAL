@@ -1,3 +1,42 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recibidos</title>
+    <style>
+        table, th, td {
+            border: 1px solid orange;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Pedido</th>
+            <th>Descripcion</th>
+            <th>Fragil</th>
+            <th>Manifiesto</th>
+            <th>Recibido</th>
+        </tr>
+        
+        <% list.forEach(function(item) { %>
+            <tr>
+                <td><%= item._id %></td>
+                <td><%= item.local.id_pedido %></td>
+                <td><%= item.local.descripcion %></td>
+                <td><%= item.local.fragil %></td>
+                <td><%= item.local.manifiestoid %></td>
+                <td><a href="/markrecieved/<%= item._id %>">Marcar</a></td>
+            </tr>
+        <% }); %>
+        
+    </table>
+</body>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head><%- include('../Layouts/head') %></head>
@@ -5,13 +44,58 @@
 <div class="page-wrapper">
     <header ><%- include('../Layouts/header.ejs') %></header>
 
-    <%- include('../Layouts/left_sidebar') %>
+    <%- include('../Layouts/left_sidebar_receivers') %>
 
     <div class="page-container">
-        <%- include('../Layouts/header_menu') %>
+        
 
 
         <div class="main-content">
+            <style>
+                h1.color_azul{
+                    color:#0069d9;
+                }
+            </style>
+            <h1 class="color_azul"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  Paquetes recibidos </h1>
+           
+            <br>
+
+            <div class="container">
+                   
+                 
+                <div class="row">
+                    <br>
+               
+                 
+                    <table class="table table-striped">
+                        <tr>
+                            <th>ID</th>
+                            <th>Pedido</th>
+                            <th>Descripcion</th>
+                            <th>Fragil</th>
+                            <th>Manifiesto</th>
+                            <th>Recibido</th>
+                        </tr>
+                        
+                        <% list.forEach(function(item) { %>
+                            <tr>
+                                <td><%= item._id %></td>
+                                <td><%= item.local.id_pedido %></td>
+                                <td><%= item.local.descripcion %></td>
+                                <td><%= item.local.fragil %></td>
+                                <td><%= item.local.manifiestoid %></td>
+                                <td><a href="/markrecieved/<%= item._id %>">Marcar</a></td>
+                            </tr>
+                        <% }); %>
+
+                    </table>
+                
+                </div>
+            </div>
+
+
+
+
 
 
         </div>
